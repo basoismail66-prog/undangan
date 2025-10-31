@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Undangan Online — Kastem</title>
+  <style>
+    :root{--bg:#f8fafc;--card:#ffffff;--muted:#6b7280;--accent:#8b5cf6}
+    *{box-sizing:border-box}
+    body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin:0;background:linear-gradient(180deg,var(--bg),#eef2ff);color:#111827}
+    .container{max-width:900px;margin:32px auto;padding:20px}
+    .card{background:var(--card);border-radius:18px;box-shadow:0 6px 30px rgba(15,23,42,0.08);overflow:hidden}
+    .hero{display:grid;grid-template-columns:1fr 360px;gap:24px;padding:28px}
+    .cover{height:100%;min-height:280px;background:#f3f4f6;border-radius:12px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .cover img{width:100%;height:100%;object-fit:cover}
+    h1{font-size:28px;margin:0 0 6px}
+    .names{font-size:20px;color:var(--accent);font-weight:600}
+    .meta{color:var(--muted);font-size:14px;margin-top:6px}
+    .details{padding:20px;border-top:1px solid #f3f4f6}
+    .row{display:flex;gap:12px;flex-wrap:wrap}
+    .btn{display:inline-block;padding:10px 14px;border-radius:10px;background:var(--accent);color:white;text-decoration:none;font-weight:600;cursor:pointer}
+    .secondary{background:#eef2ff;color:#1f2937}
+    .small{font-size:13px}
+    .rsvp{padding:18px}
+    label{display:block;font-size:13px;margin-bottom:6px;color:#374151}
+    input[type=text],input[type=email],textarea,select{width:100%;padding:10px;border-radius:8px;border:1px solid #e6e6e6;margin-bottom:12px}
+    .flex{display:flex;gap:10px}
+    .countdown{display:flex;gap:8px;margin-top:8px}
+    .countdown .unit{background:#111827;color:white;padding:10px 12px;border-radius:8px;min-width:64px;text-align:center}
+    .controls{display:flex;gap:8px;flex-wrap:wrap}
+    .gallery{display:flex;gap:8px;flex-wrap:wrap;padding:12px}
+    .gallery img{width:120px;height:86px;object-fit:cover;border-radius:8px}
+    .guestbook{padding:12px;border-top:1px dashed #eef2ff}
+    footer{padding:12px;text-align:center;color:var(--muted);font-size:13px}
+    @media (max-width:820px){.hero{grid-template-columns:1fr;}.cover{min-height:200px}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="hero">
+        <div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,#fde68a,#fca5a5);display:flex;align-items:center;justify-content:center;font-weight:700;color:#111827">IN</div>
+            <div>
+              <div class="names" id="namesText">Putra &amp; Putri</div>
+              <div class="meta" id="subtitle">Undangan Pernikahan • 01 Jan 2026</div>
+            </div>
+          </div>
+
+          <h1 id="headline">Kepada Yth. Bapak/Ibu/Saudara/i</h1>
+          <p class="small" id="message">Dengan hormat, kami mengundang Anda untuk hadir dalam acara pernikahan kami. Mohon do'a restu dan kehadiran Anda.</p>
+
+          <div class="details">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+              <div>
+                <div style="font-weight:700">Waktu &amp; Tempat</div>
+                <div class="meta" id="timePlace">Jumat, 01 Januari 2026 — Masjid Agung</div>
+              </div>
+              <div>
+                <div style="font-weight:700">Countdown</div>
+                <div class="countdown small" id="countdownWrap">
+                  <div class="unit"><div id="days">00</div><div style="font-size:11px;margin-top:6px">Hari</div></div>
+                  <div class="unit"><div id="hours">00</div><div style="font-size:11px;margin-top:6px">Jam</div></div>
+                  <div class="unit"><div id="minutes">00</div><div style="font-size:11px;margin-top:6px">Menit</div></div>
+                  <div class="unit"><div id="seconds">00</div><div style="font-size:11px;margin-top:6px">Detik</div></div>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top:16px">
+              <div style="font-weight:700;margin-bottom:8px">Lokasi (peta)</div>
+              <div style="border:1px solid #eef2ff;padding:12px;border-radius:10px" id="mapEmbed">-- Masukkan alamat di pengaturan --</div>
+            </div>
+
+          </div>
+        </div>
+
+        <div style="padding:6px">
+          <div class="cover" id="coverArea">
+            <!-- Gambar cover -->
+<img id="coverImage" src="https://i.pinimg.com/736x/77/27/54/772754e1ccc09944f4f4c88225c3ed4d.jpg" alt="cover">
+          </div>
+
+          <div style="display:flex;gap:8px;margin-top:12px;justify-content:space-between;align-items:center">
+            <div class="small">Putar musik saat buka?</div>
+            <div class="controls">
+              <button class="btn" id="toggleMusic">On / Off</button>
+              <a class="btn secondary" id="printBtn">Cetak</a>
+            </div>
+          </div>
+
+          <audio id="bgMusic" loop src=""></audio>
+
+        </div>
+      </div>
+
+      <div class="rsvp">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div style="font-weight:700">Konfirmasi Kehadiran (RSVP)</div>
+          <div class="meta small">Tamu terdaftar: <span id="guestCount">0</span></div>
+        </div>
+
+        <form id="rsvpForm">
+          <div class="row">
+            <div style="flex:1;min-width:180px">
+              <label>Nama</label>
+              <input type="text" id="guestName" placeholder="Nama lengkap" required>
+            </div>
+            <div style="min-width:180px">
+              <label>Email / No HP</label>
+              <input type="text" id="guestContact" placeholder="contoh: email@contoh.com / 0812..." required>
+            </div>
+            <div style="min-width:160px">
+              <label>Hadir?</label>
+              <select id="guestAttend">
+                <option value="Hadir">Hadir</option>
+                <option value="Tidak Hadir">Tidak Hadir</option>
+              </select>
+            </div>
+          </div>
+          <div style="margin-top:6px">
+            <label>Pesan / Doa (opsional)</label>
+            <textarea id="guestNote" rows="2" placeholder="Tulis pesan singkat..."></textarea>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button class="btn" type="submit">Kirim Konfirmasi</button>
+            <button class="btn secondary" type="button" id="viewGuests">Lihat Tamu</button>
+            <button class="btn" type="button" id="downloadData">Unduh CSV</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="guestbook" id="guestbookArea">
+        <h3 style="margin:6px 0">Buku Tamu &amp; Ucapan</h3>
+        <div id="guestList" style="display:flex;flex-direction:column;gap:8px;max-height:240px;overflow:auto;padding-right:6px">
+          <!-- guest items -->
+        </div>
+      </div>
+
+      <div style="padding:12px;border-top:1px solid #f3f4f6">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+          <div style="flex:1;min-width:220px">
+            <div style="font-weight:700">Pengaturan Cepat (ubah tanpa edit kode)</div>
+            <div class="small" style="margin-top:6px">Isi field berikut untuk mengganti teks, cover, musik, dan lokasi. Data disimpan di browser Anda.</div>
+          </div>
+
+          <div style="width:520px;max-width:100%">
+            <div style="display:flex;gap:8px;margin-bottom:8px">
+              <input type="text" id="inputNames" placeholder="Nama Mempelai — contoh: Putra & Putri">
+              <input type="text" id="inputSubtitle" placeholder="Subjudul — contoh: Undangan Pernikahan • 01 Jan 2026">
+            </div>
+            <div style="display:flex;gap:8px;margin-bottom:8px">
+              <input type="text" id="inputHeadline" placeholder="Judul utama — contoh: Kepada Yth. Bpk/Ibu/Saudara/i">
+            </div>
+            <div style="display:flex;gap:8px;margin-bottom:8px">
+              <input type="text" id="inputTimePlace" placeholder="Waktu & tempat — contoh: Sabtu, 01 Jan 2026 — Masjid XYZ">
+            </div>
+            <div style="display:flex;gap:8px;margin-bottom:8px">
+              <input type="text" id="inputCoverUrl" placeholder="URL gambar cover (atau kosongkan)">
+              <input type="text" id="inputMusicUrl" placeholder="URL musik (mp3)">
+            </div>
+            <div style="display:flex;gap:8px">
+              <input type="text" id="inputMapEmbed" placeholder="Link peta / alamat (bisa iframe src atau teks)">
+              <button class="btn" id="applySettings">Simpan</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        Dibuat dengan ♥ oleh Undangan Kastem — Sesuaikan teks, gambar, dan musik. Data RSVP tersimpan di peramban b.ismail_52.
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    // --- Utility: LocalStorage-backed settings ---
+    const defaults = {
+      names:'Putra & Putri',
+      subtitle:'Undangan Pernikahan • 01 Jan 2026',
+      headline:'Kepada Yth. Bapak/Ibu/Saudara/i',
+      message:'Dengan hormat, kami mengundang Anda untuk hadir dalam acara pernikahan kami. Mohon do\'a restu dan kehadiran Anda.',
+      timePlace:'Jumat, 01 Januari 2026 — Masjid Agung',
+      cover:'https://i.pinimg.com/736x/77/27/54/772754e1ccc09944f4f4c88225c3ed4d.jpg',
+      music:'',
+      map:'-- Masukkan alamat di pengaturan --',
+      eventDate: new Date().getTime() + 1000*60*60*24*30 // default 30 hari dari sekarang
+    }
+
+    function saveSettings(s){localStorage.setItem('kastem_settings', JSON.stringify(s))}
+    function loadSettings(){try{return Object.assign({},defaults,JSON.parse(localStorage.getItem('kastem_settings')||'{}'))}catch(e){return defaults}}
+
+    // --- Apply settings to UI ---
+    let settings = loadSettings()
+    const el = id=>document.getElementById(id)
+    function applyAll(){
+      el('namesText').textContent = settings.names
+      el('subtitle').textContent = settings.subtitle
+      el('headline').textContent = settings.headline
+      el('message').textContent = settings.message
+      el('timePlace').textContent = settings.timePlace
+      el('coverImage').src = settings.cover
+      el('bgMusic').src = settings.music
+      el('mapEmbed').textContent = settings.map
+      el('inputNames').value = settings.names
+      el('inputSubtitle').value = settings.subtitle
+      el('inputHeadline').value = settings.headline
+      el('inputTimePlace').value = settings.timePlace
+      el('inputCoverUrl').value = settings.cover
+      el('inputMusicUrl').value = settings.music
+      el('inputMapEmbed').value = settings.map
+    }
+    applyAll()
+
+    // --- Countdown ---
+    function startCountdown(){
+      const target = new Date(parseInt(settings.eventDate))
+      function tick(){
+        const now = new Date(); let diff = Math.max(0, target - now)
+        const days = Math.floor(diff/86400000); diff%=86400000
+        const hours = Math.floor(diff/3600000); diff%=3600000
+        const minutes = Math.floor(diff/60000); diff%=60000
+        const seconds = Math.floor(diff/1000)
+        el('days').textContent = String(days).padStart(2,'0')
+        el('hours').textContent = String(hours).padStart(2,'0')
+        el('minutes').textContent = String(minutes).padStart(2,'0')
+        el('seconds').textContent = String(seconds).padStart(2,'0')
+      }
+      tick(); setInterval(tick,1000)
+    }
+    startCountdown()
+
+    // --- Music toggle ---
+    let musicOn = false
+    el('toggleMusic').addEventListener('click', ()=>{
+      const music = el('bgMusic')
+      if(!music.src){alert('Belum ada URL musik. Tambahkan di pengaturan.');return}
+      musicOn = !musicOn
+      if(musicOn) music.play(); else music.pause()
+    })
+
+    // --- Print ---
+    el('printBtn').addEventListener('click', ()=>{window.print()})
+
+    // --- RSVP storage ---
+    function loadGuests(){try{return JSON.parse(localStorage.getItem('kastem_guests')||'[]')}catch(e){return []}}
+    function saveGuests(g){localStorage.setItem('kastem_guests', JSON.stringify(g))}
+    function renderGuests(){
+      const list = loadGuests(); el('guestCount').textContent = list.length
+      const wrap = el('guestList'); wrap.innerHTML=''
+      if(!list.length){wrap.innerHTML='<div class="small">Belum ada tamu yang konfirmasi.</div>';return}
+      list.slice().reverse().forEach(g=>{
+        const item = document.createElement('div'); item.style.padding='8px'; item.style.border='1px solid #f3f4f6'; item.style.borderRadius='8px'
+        item.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center"><div><strong>${escapeHtml(g.name)}</strong> <div class="meta small">${escapeHtml(g.contact)} • ${escapeHtml(g.attend)}</div></div><div class="small">${new Date(g.time).toLocaleString()}</div></div><div style="margin-top:8px" class="small">${escapeHtml(g.note||'')}</div>`
+        wrap.appendChild(item)
+      })
+    }
+    renderGuests()
+
+    el('rsvpForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const name = el('guestName').value.trim(); const contact = el('guestContact').value.trim(); const attend = el('guestAttend').value; const note = el('guestNote').value.trim()
+      if(!name||!contact){alert('Nama dan kontak wajib diisi.');return}
+      const g = {name,contact,attend,note,time: new Date().getTime()}
+      const arr = loadGuests(); arr.push(g); saveGuests(arr); renderGuests(); el('rsvpForm').reset(); alert('Terima kasih, konfirmasi Anda telah tercatat.')
+    })
+
+    el('viewGuests').addEventListener('click', ()=>{renderGuests(); window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})})
+
+    // --- Download CSV ---
+    el('downloadData').addEventListener('click', ()=>{
+      const guests = loadGuests(); if(!guests.length){alert('Belum ada data tamu.');return}
+      const header = ['Nama','Kontak','Hadir','Pesan','Waktu']
+      const rows = guests.map(g=>[g.name,g.contact,g.attend, (g.note||''), new Date(g.time).toLocaleString()])
+      const csv = [header].concat(rows).map(r=>r.map(s=>`"${String(s).replace(/"/g,'""')}"`).join(',')).join('\n')
+      const blob = new Blob([csv],{type:'text/csv'}); const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='undangan-tamu.csv'; a.click(); URL.revokeObjectURL(url)
+    })
+
+    // --- Settings apply ---
+    el('applySettings').addEventListener('click', ()=>{
+      settings.names = el('inputNames').value || settings.names
+      settings.subtitle = el('inputSubtitle').value || settings.subtitle
+      settings.headline = el('inputHeadline').value || settings.headline
+      settings.timePlace = el('inputTimePlace').value || settings.timePlace
+      const coverUrl = el('inputCoverUrl').value.trim(); if(coverUrl) settings.cover = coverUrl
+      const musicUrl = el('inputMusicUrl').value.trim(); settings.music = musicUrl
+      settings.map = el('inputMapEmbed').value || settings.map
+      // optional: if user puts a date in the timePlace like 2026-01-01, parse
+      const parsedDate = Date.parse(settings.timePlace.replace(/–/g,'-'))
+      if(!isNaN(parsedDate)) settings.eventDate = parsedDate
+      saveSettings(settings); applyAll(); alert('Pengaturan tersimpan! Data tersimpan di browser Anda.')
+    })
+
+    // --- Helper: simple escape ---
+    function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+    // --- CSV import from query params (optional) & deep-linking ---
+    (function loadFromQuery(){
+      try{
+        const params = new URLSearchParams(location.search)
+        if(params.get('names')) settings.names = params.get('names')
+        if(params.get('subtitle')) settings.subtitle = params.get('subtitle')
+        if(params.get('cover')) settings.cover = params.get('cover')
+        if(params.get('music')) settings.music = params.get('music')
+        if(params.get('time')){
+          const p = Date.parse(params.get('time'))
+          if(!isNaN(p)) settings.eventDate = p
+        }
+        applyAll();
+      }catch(e){/* ignore */}
+    })()
+
+    // --- small UX: click cover to upload local image (for quick customization) ---
+    el('coverArea').addEventListener('click', ()=>{
+      const inp = document.createElement('input'); inp.type='file'; inp.accept='image/*'; inp.onchange = e=>{
+        const f = e.target.files[0]; if(!f) return; const url = URL.createObjectURL(f); settings.cover = url; saveSettings(settings); applyAll();
+      }; inp.click();
+    })
+
+    // --- final init ---
+    renderGuests();
+
+  </script>
+</body>
+</html>   berikan nasyid https://youtu.be/mX_7du3t1GY?si=FgTQar52eCDJHb_9
